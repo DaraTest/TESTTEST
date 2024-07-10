@@ -1,31 +1,29 @@
-name: CI2
+name: .NET Core CI
 
 on:
   push:
-    branches:
-      - main
+    branches: [ main ]
   pull_request:
-    branches:
-      - main
+    branches: [ main ]
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+    - name: Checkout repository
+      uses: actions/checkout@v2
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v1
-        with:
-          dotnet-version: '5.0'
+    - name: Setup .NET Core
+      uses: actions/setup-dotnet@v1
+      with:
+        dotnet-version: 8.0.303
 
-      - name: Restore dependencies
-        run: dotnet restore TESTTEsT.sln
+    - name: Install dependencies
+      run: dotnet restore
 
-      - name: Build project
-        run: dotnet build TESTTEsT.sln --configuration Release
+    - name: Build the project
+      run: dotnet build --configuration Release --no-restore
 
-      - name: Run tests
-        run: dotnet test TESTTEsT.sln --configuration Release --no-build
+    - name: Run tests
+      run: dotnet test --no-restore --verbosity normal
