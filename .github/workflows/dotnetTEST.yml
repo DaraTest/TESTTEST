@@ -1,29 +1,31 @@
-name: .NET Core Desktop
+name: CI2
 
 on:
   push:
-    branches: [ "main" ]
+    branches:
+      - main
   pull_request:
-    branches: [ "main" ]
+    branches:
+      - main
 
 jobs:
   build:
-    runs-on: windows-latest 
-    steps:
-    - name: Checkout
-      uses: actions/checkout@v4
-    
-    - name: Install .NET Core
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 8.0.204
-    - name: .NET version sweeper
-  # You may pin to the exact commit or the version.
-      uses: dotnet/versionsweeper@cef21137b6025da8af34619e5e05c3515fee19fd
-        
-    - name: Setup MSBuild
-      uses: microsoft/setup-msbuild@v2
+    runs-on: ubuntu-latest
 
-    # Execute all unit tests in the solution
-    - name: Execute unit tests
-      run: dotnet test
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2 
+
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v1
+      with:
+          dotnet-version: '8.0.303' # Aktualisierte Version
+
+    - name: Restore dependencies
+      run: dotnet restore
+
+    - name: Build project
+      run: dotnet build --configuration Release
+
+    - name: Run tests
+      run: dotnet test --configuration Release --no-build
