@@ -13,19 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2 
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v1
-      with:
-          dotnet-version: '8.0.303' # Aktualisierte Version
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v1
+        with:
+          dotnet-version: '8.0.303'
 
-    - name: Restore dependencies
-      run: dotnet restore
+      - name: Restore dependencies
+        run: dotnet restore
 
-    - name: Build project
-      run: dotnet build --configuration Release
+      - name: Build project
+        run: dotnet build --configuration Release
 
-    - name: Run tests
-      run: dotnet test --configuration Release --no-build
+      - name: Run tests
+        run: dotnet test --configuration Release --no-build
